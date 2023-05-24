@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import api from "../../../utils/api";
+import useAuth from "../../../contexts/AuthContext";
 
 export default function TempTest() {
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -10,6 +11,8 @@ export default function TempTest() {
     error?: string;
     bin?: string[];
   }>();
+
+  const auth = useAuth();
 
   return (
     <div className="p-10">
@@ -23,7 +26,7 @@ export default function TempTest() {
           <button
             className="bg-teal-500 rounded-md px-6 py-2 text-white"
             onClick={async () => {
-              setResponse(await api.bin.add(inputRef.current.value));
+              setResponse(await api.bin.add(auth.user, inputRef.current.value));
             }}
           >
             Add
@@ -33,8 +36,8 @@ export default function TempTest() {
             className="bg-teal-500 rounded-md px-6 py-2 text-white"
             onClick={async () => {
               const index = Number(inputRef.current.value);
-              index
-                ? setResponse(await api.bin.seek(index))
+              index || index == 0
+                ? setResponse(await api.bin.seek(auth.user, index))
                 : setResponse({ error: "index can only be a number" });
             }}
           >
@@ -45,14 +48,14 @@ export default function TempTest() {
           <button
             className="bg-blue-500 rounded-md px-6 py-2 text-white"
             onClick={async () => {
-              setResponse(await api.bin.seek());
+              setResponse(await api.bin.seek(auth.user));
             }}
           >
             List All
           </button>
         </div>
       </div>
-      <div className="my-12 p-1">
+      <div className="my-12">
         {response && (
           <>
             {response.index && (

@@ -1,8 +1,9 @@
 import { SERVER_URL } from "../config";
+import useAuth from "../contexts/AuthContext";
 
 const bin = {
-  async add(value: string) {
-    const data = await fetch(`${SERVER_URL}/bin/add`, {
+  async add(id: string | null, value: string) {
+    const data = await fetch(`${SERVER_URL}/bin/${id}/add`, {
       body: JSON.stringify({ value: value }),
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -10,12 +11,18 @@ const bin = {
 
     return await data.json();
   },
-  async seek(index?: number) {
-    const data = await fetch(`${SERVER_URL}/bin/seek/${index || ""}`, {
-      method: "GET",
-    });
-
-    return await data.json();
+  async seek(id: string | null, index?: number) {
+    if (index == 0) {
+      const data = await fetch(`${SERVER_URL}/bin/${id}/seek/${index}`, {
+        method: "GET",
+      });
+      return await data.json();
+    } else {
+      const data = await fetch(`${SERVER_URL}/bin/${id}/seek/${index || ""}`, {
+        method: "GET",
+      });
+      return await data.json();
+    }
   },
 };
 

@@ -6,10 +6,10 @@ export default function HomePage() {
   const auth = useAuth();
   return (
     <ProtectedRoute>
-      <div className="flex flex-row p-4 items-center justify-between">
+      <div className="flex flex-row p-10 items-center justify-between">
         <div>User ID : {auth.user}</div>
         <button
-          className="px-2 py-2 bg-black text-white rounded-md"
+          className="px-5 py-2 bg-black text-white rounded-md"
           onClick={() => {
             auth.logout();
           }}

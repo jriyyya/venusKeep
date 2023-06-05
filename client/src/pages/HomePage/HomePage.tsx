@@ -7,7 +7,7 @@ export default function HomePage() {
   return (
     <ProtectedRoute>
       <div className="flex flex-row p-10 items-center justify-between">
-        <div>User ID : {auth.user}</div>
+        {/* <div>User ID : {auth.user}</div> */}
         <button
           className="px-5 py-2 bg-black text-white rounded-md"
           onClick={() => {
